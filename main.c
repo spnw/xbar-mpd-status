@@ -126,7 +126,7 @@ main(int argc, char *argv[])
     err(1, "Failed to get status (is MPD running?)");
 
   mpd.state = mpd_status_get_state(mpd.status);
-  mpd.single = mpd_status_get_single(mpd.status);
+  mpd.single = mpd_status_get_single_state(mpd.status);
   mpd.active = (mpd.state == MPD_STATE_PLAY || mpd.state == MPD_STATE_PAUSE);
   mpd.song_pos = mpd_status_get_song_pos(mpd.status);
   mpd.queue_length = mpd_status_get_queue_length(mpd.status);
@@ -162,9 +162,9 @@ main(int argc, char *argv[])
   else if (CMD("previous"))
     mpd_run_previous(mpd.conn);
   else if (CMD("single_oneshot"))
-    mpd_run_single(mpd.conn, MPD_SINGLE_ONESHOT);
+    mpd_run_single_state(mpd.conn, MPD_SINGLE_ONESHOT);
   else if (CMD("single_off"))
-    mpd_run_single(mpd.conn, MPD_SINGLE_OFF);
+    mpd_run_single_state(mpd.conn, MPD_SINGLE_OFF);
 
   return 0;
 }
