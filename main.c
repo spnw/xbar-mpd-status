@@ -173,7 +173,9 @@ main(int argc, char *argv[])
 
     puts(" | emojize=false\n---");
 
-    print_duration_info();
+    if (mpd.active)
+      print_duration_info();
+
     print_controls();
 
     return 0;
