@@ -65,6 +65,35 @@ print_song_info(void)
 }
 
 static void
+print_time(unsigned int t)
+{
+  unsigned int
+    hours = (t / 3600),
+    minutes = (t % 3600 / 60),
+    seconds = (t % 3600 % 60);
+
+  if (hours)
+    printf("%u:%02u:%02u", hours, minutes, seconds);
+  else
+    printf("%u:%02u", minutes, seconds);
+}
+
+static void
+print_duration_info(void)
+{
+  unsigned elapsed = mpd_status_get_elapsed_time(mpd.status);
+  unsigned dur = mpd_song_get_duration(mpd.song);
+
+  print_time(elapsed);
+  printf(" / ");
+  if (dur)
+    print_time(dur);
+  else
+    printf("?");
+  puts("\n---");
+}
+
+static void
 control(const char *label, const char *command, bool enable)
 {
   if (enable)
@@ -144,6 +173,7 @@ main(int argc, char *argv[])
 
     puts(" | emojize=false\n---");
 
+    print_duration_info();
     print_controls();
 
     return 0;
